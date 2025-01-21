@@ -11,17 +11,17 @@ major_minor=$(echo $version | awk -F'.' '{print $1 "." $2}')
 current_date=$(date +%y%m%d)
 
 # 4. 结合第二步获取到的内容拼接，得到新的 tag 名
-new_tag="${major_minor}.${current_date}"
+new_version="${major_minor}.${current_date}"
 
 # 更新 manifest.json 中的 version 字段
-sed -i '' -E "s/\"version\": \"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"$new_version\"/" manifest-BETA.json
+sed -i "" -E "s/\"version\": \".*\..*\..*\"/\"version\": \"$new_version\"/" manifest-BETA.json
 
 
 # 5. 执行 git
 git add .
-git commit -m "Release $new_tag"
+git commit -m "Release $new_version"
 git push
-git tag $new_tag
+git tag $new_version
 git push --tags
 
-echo "New tag $new_tag created and pushed."
+echo "New tag $new_version created and pushed."
