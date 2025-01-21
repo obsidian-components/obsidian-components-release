@@ -13,10 +13,15 @@ current_date=$(date +%y%m%d)
 # 4. 结合第二步获取到的内容拼接，得到新的 tag 名
 new_tag="${major_minor}.${current_date}"
 
-# 5. 执行 git tag 命令
-git tag $new_tag
+# 更新 manifest.json 中的 version 字段
+sed -i '' -E "s/\"version\": \"[0-9]+\.[0-9]+\.[0-9]+\"/\"version\": \"$new_version\"/" manifest-BETA.json
 
-# 6. 执行 git push --tags 命令
+
+# 5. 执行 git
+git add .
+git commit -m "Release $new_tag"
+git push
+git tag $new_tag
 git push --tags
 
 echo "New tag $new_tag created and pushed."
